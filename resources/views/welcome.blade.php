@@ -1,100 +1,59 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
+@section('content')
+    <div class="container">
+        <div class="">
+            <div class="row ">
+                <div class="col-md-8 mx-auto d-flex justify-content-between">
+                    <div class="font-weight-bold"><h3>Products</h3></div>
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
+                        <a class="btn btn-success" href="{{route('product.create')}}">Create</a>
                     @endauth
                 </div>
-            @endif
+            </div>
+            <hr>
+        </div>
+        <div class="d-flex align-content-start flex-wrap">
+            <div class="row ">
+                @foreach($product as $item)
+                    <div class="card mx-3 my-3" style="width: 282px; max-height: 500px">
+                        <div class="card-header">
+                            <img src="{{asset('22.jpg')}}" alt="product" style="height:200px;weight:90px">
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                @auth
+                                    <a href="{{route('product.edit',$item->id)}}" class="btn btn-primary text-decoration-none">Edit</a>
+                                @endauth
+                                <a href="{{route('product.show',$item->id)}}" class="btn btn-secondary text-decoration-none">Show</a>
+                                @auth
+                                    <form onsubmit="return confirm('Are You Sure, Delete this Product?')" action="{{route('product.destroy', $item->id)}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger"> Delete </button>
+                                    </form>
+                                @endauth
+                            </div>
+                            <div class="mx-2 my-2 font-weight-bold">
+                                {{$item->name}}
+                            </div>
+                            <div class="mx-2 my2">
+                                <span><u>Category:</u></span>
+                                @foreach($category as $data)
+                                    @if($data->id == $item->category_id)
+                                        {{$data->name}}
+                                    @endif
+                                @endforeach
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+                            </div>
+                            <div class="mx-2 my-2">
+                                {{$item->details}}
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
-    </body>
-</html>
+
+    </div>
+@endsection
