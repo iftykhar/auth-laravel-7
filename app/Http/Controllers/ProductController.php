@@ -44,12 +44,22 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $attribute = $request->validate([
+          $request->validate([
             'name'=>'required|unique:products',
             'details'=>'required',
             'category_id'=>'required',
             'image'=>'required',
         ]);
+
+        $imageName = time().'.'.$request->image->extension();
+
+        $request->image->move(public_path('uploaded_images'), $imageName);
+        $attribute = array(
+            'name'=>$request->input('name'),
+            'details'=>$request->input('details'),
+            'category_id'=>$request->input('category_id'),
+            'image'=>$imageName,
+        );
         product::create($attribute);
 
         return redirect()->route('product.index')->with('message','product saved ');

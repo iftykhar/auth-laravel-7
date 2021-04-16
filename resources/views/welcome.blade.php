@@ -18,7 +18,7 @@
                 @foreach($product as $item)
                     <div class="card mx-3 my-3" style="width: 282px; max-height: 500px">
                         <div class="card-header">
-                            <img src="{{asset('22.jpg')}}" alt="product" style="height:200px;weight:90px">
+                            <img src="{{asset('uploaded_images/'.$item->image)}}" alt="product" style="height:200px;weight:90px">
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
