@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static findOrFail(mixed $id)
+ */
 class product extends Model
 {
     protected $fillable = [
@@ -12,4 +15,5 @@ class product extends Model
         'category_id',
         'image',
     ];
+
 }
