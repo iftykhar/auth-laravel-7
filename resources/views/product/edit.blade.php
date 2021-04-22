@@ -12,7 +12,7 @@
 
                     <div class="card-body">
 
-                        <form action="{{route('product.update',$product->id)}}" method="post">
+                        <form action="{{route('product.update',$product->id)}}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('put')
                             <div class="mb-3">
@@ -28,6 +28,9 @@
                                 @error('details')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
+                            </div>
+                            <div class="mb-3">
+                                <input type="file" name="image" class="form-control" id="image" >
                             </div>
                             <button class="btn btn-success" type="submit">Update</button>
                         </form>

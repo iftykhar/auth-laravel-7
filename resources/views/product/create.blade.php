@@ -47,7 +47,7 @@
                             <div class="mb-3">
                                 <label for="image" class="col-form-label col-sm-4">Product Image</label>
                                 <div class="col-sm-8">
-                                    <input type="file" class="form-control" id="image" name="image"  value="{{ old('image') }}">
+                                    <input type="file" name="image" class="form-control" id="image" >
 
                                 </div>
 

@@ -37,8 +37,9 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $attribute = $request->validate([
-           'name'=>'required|unique:categories,name',
+           'name'=>'required|string|unique:categories,name',
         ]);
+
 
         Category::create($attribute);
         return  redirect()->route('category.create')->with('message','your category is saved');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\product;
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -44,23 +45,28 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-          $request->validate([
+
+          $attributes = $request->validate([
+            'category_id'=>'required',
             'name'=>'required|unique:products',
             'details'=>'required',
-            'category_id'=>'required',
-            'image'=>'required',
+            'image' => 'nullable|image|mimes:jpg,jpeg,gif,png|max:1024',
         ]);
 
-        $imageName = time().'.'.$request->image->extension();
 
-        $request->image->move(public_path('uploaded_images'), $imageName);
-        $attribute = array(
-            'name'=>$request->input('name'),
-            'details'=>$request->input('details'),
-            'category_id'=>$request->input('category_id'),
-            'image'=>$imageName,
-        );
-        product::create($attribute);
+        if ($request->hasFile('image')) {
+            $imageName = "uploaded_images/".time().'.'.$request->image->extension();
+
+            $request->image->move(public_path('uploaded_images'), $imageName);
+
+            $attributes['image'] = $imageName;
+        }
+        else {
+            $attributes['image'] = '';
+        }
+
+
+        product::create($attributes);
 
         return redirect()->route('product.index')->with('message','product saved ');
     }
@@ -100,12 +106,29 @@ class ProductController extends Controller
      */
     public function update(Request $request, product $product)
     {
-        $attribute=$request->validate([
+
+        $attributes=$request->validate([
             'name'=>'required|unique:products,name,'.$product->id,
-            'detalis'=>'required',
+            'details'=>'required',
         ]);
 
-        $product->update($attribute);
+
+        if ($request->hasFile('image')) {
+            if(file_exists(public_path($product->image)))
+            {
+                File::delete(public_path($product->image));
+            }
+
+            $imageName = "uploaded_images/".time().'.'.$request->image->extension();
+
+            $request->image->move(public_path('uploaded_images'), $imageName);
+
+            $attributes['image'] = $imageName;
+        } else {
+            $attributes['image'] = $product->image;
+        }
+
+        $product->update($attributes);
         return redirect()->route('product.index')->with('message','Product updated successfully');
     }
 
@@ -117,8 +140,10 @@ class ProductController extends Controller
      */
     public function destroy(product $product)
     {
-        $product=product::findOrFail($product->id);
-        unlink(public_path('uploaded_images/'.$product->image));
+        if(file_exists(public_path($product->image)))
+        {
+            File::delete(public_path($product->image));
+        }
         $product->delete();
         return redirect()->route('product.index')->with('message','Product deleted successfully');
     }
