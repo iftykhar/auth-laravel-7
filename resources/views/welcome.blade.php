@@ -6,6 +6,7 @@
             <div class="row ">
                 <div class="col-md-8 mx-auto d-flex justify-content-between">
                     <div class="font-weight-bold"><h3>Products</h3></div>
+
                     @auth
                         <a class="btn btn-success" href="{{route('product.create')}}">Create</a>
                     @endauth

@@ -51,6 +51,7 @@ class ProductController extends Controller
             'name'=>'required|unique:products',
             'details'=>'required',
             'image' => 'nullable|image|mimes:jpg,jpeg,gif,png|max:1024',
+            'file' => 'nullable|file|mimes:docs,pdf|max:5000',
         ]);
 
 
@@ -64,6 +65,18 @@ class ProductController extends Controller
         else {
             $attributes['image'] = '';
         }
+
+        if ($request->hasFile('file')){
+            $fileName = "/" . time().'.'.$request->file->extension();
+
+            $request->file->move(public_path('/'),$fileName);
+
+            $attributes['file'] = $fileName;
+        }
+        else{
+            $attributes['file'] = '';
+        }
+
 
 
         product::create($attributes);

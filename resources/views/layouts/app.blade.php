@@ -37,6 +37,10 @@
                         <li class="nav-item">
                             <a href="#" class="nav-link">Products</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{route('employee.create')}}" class="nav-link">Employee</a>
+                        </li>
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
