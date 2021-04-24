@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,3 +24,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('product','ProductController');
 Route::resource('category','CategoryController');
 Route::resource('employee','EmployeeController');
+
+
+Route::get('/users/{user}','UserController@show'); //(route/{model})  binding
