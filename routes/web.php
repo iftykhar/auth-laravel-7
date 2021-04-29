@@ -24,6 +24,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('product','ProductController');
 Route::resource('category','CategoryController');
 Route::resource('employee','EmployeeController');
+Route::resource('user','UserController');
 
 
-Route::get('/users/{user}','UserController@show'); //(route/{model})  binding
+//Route::get('/users/{user}','UserController@show'); //(route/{model})  binding

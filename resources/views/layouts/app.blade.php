@@ -40,6 +40,9 @@
                         <li class="nav-item">
                             <a href="{{route('employee.create')}}" class="nav-link">Employee</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{route('user.create')}}" class="nav-link">User</a>
+                        </li>
 
                     </ul>
 
