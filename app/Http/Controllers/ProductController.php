@@ -106,8 +106,8 @@ class ProductController extends Controller
      */
     public function edit(product $product)
     {
-        $product=product::findOrfail($product->id);
-        return  view('product.edit',compact('product',$product));
+        //$product=product::findOrfail($product->id);
+        return  view('product.edit',['product'=> $product]);
     }
 
     /**

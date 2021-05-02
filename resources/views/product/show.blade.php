@@ -14,7 +14,8 @@
                     </div>
                     <div class="card-body">
                         <div class="card-title">
-                            <img src="{{asset('uploaded_images/'.$productData->image)}}" alt="Image" style="width: 500px; height: 500px">
+
+                            <img src="{{asset($productData->image)}}" alt="Image" style="width: 500px; height: 500px">
                         </div>
                         <div class="">
                             <span class=""><strong>Category:</strong></span> {{$productData->category_id}}

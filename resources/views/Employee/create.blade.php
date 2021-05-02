@@ -32,12 +32,22 @@
                         <p>Pdf Reader</p>
                     </div>
                     <div class="card-body">
-                        <ul>
+                        <table class="table">
+                            <tr>
+                                <td><strong>Employee Name</strong></td>
+                                <td><strong>Details File</strong></td>
+                                <td colspan="3" class="font-weight-bold">Actions</td>
+                            </tr>
                             @foreach($employees as $item)
-                                <li>{{$item->name}},{{$item->file}} <a href="{!! url($item->file) !!}" target="_blank" class="btn btn-danger"> Show PDF</a></li>
+                            <tr>
+                                <td>{{$item->name}}</td>
+                                <td>{{$item->file}}</td>
+                                <td><a href="{!! url($item->file) !!}" target="_blank" class="btn btn-danger"> Show PDF</a></td>
 
+                            </tr>
                             @endforeach
-                        </ul>
+                        </table>
+
                     </div>
                 </div>
             </div>

@@ -9,9 +9,6 @@
                         <div>
                             <h2> Product Creation</h2>
                         </div>
-                        <div>
-                            <a class="btn btn-outline-primary" href="">PDF</a>
-                        </div>
                     </div>
 
                     <div class="card-body">
@@ -21,7 +18,7 @@
                             <label class="sr-only" for="image">Image</label>
                             <input type="hidden" name="image" id="image" value="image">
                             <div class="mb-3">
-                                <label for="category" >Category</label><a class="btn btn-success text-capitalize" href="{{route('category.create')}}">new category</a>
+                                <label for="category" >Category</label><a class="btn btn-success text-capitalize mx-2 my-2" href="{{route('category.create')}}">new category</a>
                                 @if(count($categories) > 0 )
                                     <select class="form-control" name="category_id" id="category" required>
                                         @foreach($categories as $item)
@@ -48,11 +45,13 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="mb-3">
-                                <label for="image" class="col-form-label col-sm-4">Product Image</label>
-                                <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="image" class="col-form-label col-sm-4">Product Image</label>
                                     <input type="file" name="image" class="form-control" id="image" >
-
+                                </div>
+                                <div class="col-sm-4">
+                                    <img src="{{ asset('uploaded_images/1619087615.png') }}" onchange="showImage(this)" id="image" class="float-right" alt="image"  style="height: 100px; width: 100px">
                                 </div>
 
                             </div>
@@ -69,3 +68,28 @@
         </div>
     </div>
 @endsection
+@push('js')
+    <script>
+
+        function showImage(fileInput) {
+            let files = fileInput.files;
+            for (let i = 0; i < files.length; i++) {
+                let file = files[i];
+                let imageType = /image.*/;
+                if (!file.type.match(imageType)) {
+                    continue;
+                }
+                let img = document.getElementById("image");
+                img.file = file;
+                let reader = new FileReader();
+                reader.onload = (function (aImg) {
+                    return function (e) {
+                        aImg.src = e.target.result;
+                    };
+                })(img);
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+@endpush
+
